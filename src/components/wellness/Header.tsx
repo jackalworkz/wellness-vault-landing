@@ -78,8 +78,11 @@ export function Header() {
             onClick={() => setMenuOpen((v) => !v)}
             className="inline-flex size-11 items-center justify-center rounded-md text-primary transition-colors hover:bg-secondary lg:hidden"
           >
-            {menuOpen ? <Menu className="size-5 hidden" /> : null}
-            {menuOpen ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
+            {menuOpen ? (
+              <X className="size-5" aria-hidden="true" />
+            ) : (
+              <Menu className="size-5" aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
