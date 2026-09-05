@@ -39,7 +39,12 @@ function Shell({
 
 export const TextField = forwardRef<
   HTMLInputElement,
-  InputHTMLAttributes<HTMLInputElement> & { id: string; label: string; error?: string | undefined; hint?: string }
+  InputHTMLAttributes<HTMLInputElement> & {
+    id: string;
+    label: string;
+    error?: string | undefined;
+    hint?: string | undefined;
+  }
 >(({ id, label, error, hint, className, ...props }, ref) => (
   <Shell id={id} label={label} error={error} hint={hint}>
     <input
