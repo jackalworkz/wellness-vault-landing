@@ -1,8 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ConsultationProvider } from "@/components/wellness/consultation-context";
-import { ConsultationModal } from "@/components/wellness/ConsultationModal";
-import { ResourceModal } from "@/components/wellness/ResourceModal";
-import { Header } from "@/components/wellness/Header";
 import { Hero } from "@/components/wellness/Hero";
 import { BenefitStrip } from "@/components/wellness/BenefitStrip";
 import { ProblemSection } from "@/components/wellness/ProblemSection";
@@ -17,7 +13,6 @@ import { Testimonials } from "@/components/wellness/Testimonials";
 import { PaidVault } from "@/components/wellness/PaidVault";
 import { FAQAccordion, FAQS } from "@/components/wellness/FAQAccordion";
 import { FinalCTA } from "@/components/wellness/FinalCTA";
-import { Footer } from "@/components/wellness/Footer";
 
 const TITLE = "Wellness Vault | Practical Wellness Resources & Guidance";
 const DESCRIPTION =
@@ -47,11 +42,7 @@ export const Route = createFileRoute("/")({
               description:
                 "A digital wellness resource platform offering practical guides, educational resources, planning tools, and trackers.",
             },
-            {
-              "@type": "WebSite",
-              name: "Wellness Vault",
-              description: DESCRIPTION,
-            },
+            { "@type": "WebSite", name: "Wellness Vault", description: DESCRIPTION },
             {
               "@type": "FAQPage",
               mainEntity: FAQS.map((faq) => ({
@@ -70,27 +61,21 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   return (
-    <ConsultationProvider>
-      <Header />
-      <main>
-        <Hero />
-        <BenefitStrip />
-        <ProblemSection />
-        <SolutionSection />
-        <VaultSection />
-        <FreeResources />
-        <HowItWorks />
-        <WhyVault />
-        <WhoItsFor />
-        <ProductShowcase />
-        <Testimonials />
-        <PaidVault />
-        <FAQAccordion />
-        <FinalCTA />
-      </main>
-      <Footer />
-      <ConsultationModal />
-      <ResourceModal />
-    </ConsultationProvider>
+    <>
+      <Hero />
+      <BenefitStrip />
+      <ProblemSection />
+      <SolutionSection />
+      <VaultSection />
+      <FreeResources />
+      <HowItWorks />
+      <WhyVault />
+      <WhoItsFor />
+      <ProductShowcase />
+      <Testimonials />
+      <PaidVault />
+      <FAQAccordion />
+      <FinalCTA />
+    </>
   );
 }

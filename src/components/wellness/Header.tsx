@@ -5,11 +5,11 @@ import { useConsultation } from "./consultation-context";
 import { cn } from "@/lib/utils";
 
 export const NAV_LINKS = [
-  { label: "Home", href: "#top" },
-  { label: "What's Inside", href: "#whats-inside" },
-  { label: "Free Resources", href: "#free-resources" },
-  { label: "Consultation", href: "#consultation" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Home", href: "/#top" },
+  { label: "What's Inside", href: "/#whats-inside" },
+  { label: "Free Resources", href: "/#free-resources" },
+  { label: "Consultation", href: "/#consultation" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function Header() {
@@ -40,7 +40,7 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:h-18 lg:px-8">
         <a
-          href="#top"
+          href="/"
           className="min-w-0 font-display text-lg font-semibold tracking-tight text-primary sm:text-xl"
         >
           Wellness Vault
