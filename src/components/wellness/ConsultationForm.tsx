@@ -5,6 +5,8 @@ import { CTAButton } from "./CTAButton";
 import { TextField, TextAreaField } from "./FormField";
 import { trackEvent } from "@/lib/analytics";
 import { useConsultation } from "./consultation-context";
+import { useServerFn } from "@tanstack/react-start";
+import { submitLead } from "@/lib/leads.functions";
 
 export const SUGGESTED_REASON =
   "I'd like to discuss my wellness goals, understand where I should start, and learn which Wellness Vault resources may be most helpful for me.";
@@ -50,6 +52,7 @@ export type ConsultationRequest = {
 
 export function ConsultationForm({ source, onDone }: { source: string; onDone: () => void }) {
   const { openResource } = useConsultation();
+  const submit = useServerFn(submitLead);
   const [values, setValues] = useState({
     name: "",
     phone: "",
@@ -99,9 +102,16 @@ export function ConsultationForm({ source, onDone }: { source: string; onDone: (
     };
 
     try {
-      // No CRM/backend is connected yet — this is the single hand-off point.
-      await new Promise((resolve) => setTimeout(resolve, 900));
-      if (import.meta.env.DEV) console.info("[consultation request]", request);
+      const result = await submit({
+        data: {
+          lead_type: "consultation",
+          name: request.name,
+          email: request.email,
+          phone: request.phone,
+          reason: request.reason,
+        },
+      });
+      if (!result.ok) throw new Error("submit failed");
       setStatus("success");
       trackEvent("consultation_form_submitted", { source });
     } catch {
