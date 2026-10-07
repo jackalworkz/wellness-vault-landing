@@ -122,6 +122,11 @@ export function LeadCaptureForm({
         <label htmlFor={`${resource}-website`}>Website</label>
         <input id={`${resource}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
+      {status === "error" ? (
+        <p role="alert" className="text-sm font-bold text-destructive">
+          Something went wrong sending your request. Please try again in a moment.
+        </p>
+      ) : null}
       <CTAButton type="submit" size="lg" full disabled={submitting} aria-busy={submitting}>
         {submitting ? (
           <>
