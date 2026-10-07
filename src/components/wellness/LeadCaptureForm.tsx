@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import { z } from "zod";
 import { Check, Loader2, Lock } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { CTAButton } from "./CTAButton";
 import { TextField } from "./FormField";
+import { submitLead } from "@/lib/leads.functions";
 
 const schema = z.object({
   name: z
@@ -37,8 +39,9 @@ export function LeadCaptureForm({
 }) {
   const [values, setValues] = useState({ name: "", email: "" });
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const lockRef = useRef(false);
+  const submit = useServerFn(submitLead);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,11 +61,16 @@ export function LeadCaptureForm({
     }
     lockRef.current = true;
     setStatus("submitting");
-    const request: LeadRequest = { ...parsed.data, resource, created_at: new Date().toISOString() };
-    // No email service is connected yet — this is the single hand-off point.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    if (import.meta.env.DEV) console.info("[lead request]", request);
-    setStatus("success");
+    try {
+      const result = await submit({
+        data: { lead_type: resource as "guide" | "ebook" | "session", ...parsed.data },
+      });
+      if (!result.ok) throw new Error("submit failed");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      lockRef.current = false;
+    }
   }
 
   if (status === "success") {
@@ -114,6 +122,11 @@ export function LeadCaptureForm({
         <label htmlFor={`${resource}-website`}>Website</label>
         <input id={`${resource}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
+      {status === "error" ? (
+        <p role="alert" className="text-sm font-bold text-destructive">
+          Something went wrong sending your request. Please try again in a moment.
+        </p>
+      ) : null}
       <CTAButton type="submit" size="lg" full disabled={submitting} aria-busy={submitting}>
         {submitting ? (
           <>
