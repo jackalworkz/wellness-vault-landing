@@ -1,6 +1,7 @@
 import { FileText, MousePointerClick, BookMarked, Video, HeartPulse, CalendarClock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
+import { FREE_RESOURCES } from "./resources-data";
 import { CTAButton } from "./CTAButton";
 import { useConsultation, type ResourceKey } from "./consultation-context";
 import { cn } from "@/lib/utils";
@@ -98,12 +99,37 @@ export function FreeResources() {
                 </h3>
                 <p
                   className={cn(
-                    "mt-2 flex-1 text-sm leading-relaxed",
+                    "mt-2 text-sm leading-relaxed",
                     isConsultation ? "text-ivory/80" : "text-muted-foreground",
                   )}
                 >
                   {resource.body}
                 </p>
+                {(() => {
+                  const info = FREE_RESOURCES.find((r) => r.key === resource.key);
+                  if (!info) return null;
+                  return (
+                    <dl
+                      className={cn(
+                        "mt-4 flex-1 space-y-2 border-t pt-4 text-sm",
+                        isConsultation ? "border-ivory/15" : "border-border",
+                      )}
+                    >
+                      <div>
+                        <dt className={cn("text-xs font-bold uppercase tracking-widest", isConsultation ? "text-gold" : "text-sage")}>
+                          Best for
+                        </dt>
+                        <dd className={isConsultation ? "text-ivory/90" : "text-foreground/85"}>{info.forWho}</dd>
+                      </div>
+                      <div>
+                        <dt className={cn("text-xs font-bold uppercase tracking-widest", isConsultation ? "text-gold" : "text-sage")}>
+                          You'll get
+                        </dt>
+                        <dd className={isConsultation ? "text-ivory/90" : "text-foreground/85"}>{info.benefit}</dd>
+                      </div>
+                    </dl>
+                  );
+                })()}
                 <CTAButton
                   className="mt-6"
                   full
