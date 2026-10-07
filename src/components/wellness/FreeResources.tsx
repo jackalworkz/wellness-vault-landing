@@ -1,6 +1,7 @@
 import { FileText, MousePointerClick, BookMarked, Video, HeartPulse, CalendarClock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
+import { FREE_RESOURCES } from "./resources-data";
 import { CTAButton } from "./CTAButton";
 import { useConsultation, type ResourceKey } from "./consultation-context";
 import { cn } from "@/lib/utils";
